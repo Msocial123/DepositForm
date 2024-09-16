@@ -1,3 +1,58 @@
+#Dockerfile
+
+# Use the official Node.js image as the base image
+FROM node:18
+
+# Set the working directory inside the container
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Install application dependencies
+RUN npm install
+
+# Copy the rest of the application code to the working directory
+COPY . .
+
+# Expose the port the app runs on
+EXPOSE 3000
+
+# Define the command to run the application
+CMD ["node", "server.js"]
+
+
+===============================================================================
+
+# Docker-compose.yml
+
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+
+=========================================================================
+
+#Server.js
+
 const http = require('http');
 const url = require('url');
 const fs = require('fs');
@@ -6,8 +61,7 @@ const { parse } = require('querystring');
 const { MongoClient } = require('mongodb');
 
 // MongoDB connection URL from environment variables
-const mongoUrl = process.env.MONGO_URI || 'mongodb://mongodb:27017'; // Default to local if not provided
-//const mongoUrl = process.env.MONGO_URI || 'mongodb://localhost:27017';  for running in mongoDBCompass
+const mongoUrl = process.env.MONGO_URI || 'mongodb://localhost:27017'; // Default to local if not provided
 const dbName = 'bank';
 const collectionName = 'deposits';
 

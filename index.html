@@ -9,6 +9,7 @@
 <body>
     <div class="form-container">
         <h1>Online Cash Deposit Form</h1><br><br>
+        <h2>Deposit Form</h2><br><br>
         <form id="depositForm">
             <fieldset>
                 <legend>Branch Details</legend>
@@ -36,7 +37,7 @@
                 </select><br>
 
                 <label for="date">Date:</label>
-                <input type="date" id="date" name="date" required min="${new Date().toISOString().split('T')[0]}" value="${new Date().toISOString().split('T')[0]}">
+                <input type="date" id="date" name="date" required>
             </fieldset>
 
             <fieldset>
@@ -45,7 +46,7 @@
                 <input type="text" id="name" name="name" required><br>
 
                 <label for="accountNumber">Account Number:</label>
-                <input type="text" id="accountNumber" name="accountNumber" placeholder="Enter your 12 digit account number" required><br>
+                <input type="text" id="accountNumber" name="accountNumber" placeholder="Enter your 10-12 digit account number" required><br>
             </fieldset>
 
             <fieldset>

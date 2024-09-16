@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIN Change</title>
+    <link rel="stylesheet" href="/styles2.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>PIN Change</h1>
+        <p>Fill out the form below to change your PIN:</p>
+        <form id="pinChangeForm">
+            <fieldset>
+                <legend>Change PIN</legend>
+                <label for="currentPin">Current PIN:</label>
+                <input type="password" id="currentPin" name="currentPin" required><br>
+
+                <label for="newPin">New PIN:</label>
+                <input type="password" id="newPin" name="newPin" required><br>
+
+                <label for="confirmNewPin">Confirm New PIN:</label>
+                <input type="password" id="confirmNewPin" name="confirmNewPin" required><br>
+            </fieldset>
+
+            <button type="submit">Change PIN</button>
+        </form><br>
+        <button onclick="window.location.href='/home.html'">Return Home</button>
+    </div>
+
+    <script src="/script.js"></script>
+    <script>
+        document.getElementById('pinChangeForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevents the default form submission
+
+            // Basic validation
+            const currentPin = document.getElementById('currentPin').value.trim();
+            const newPin = document.getElementById('newPin').value.trim();
+            const confirmNewPin = document.getElementById('confirmNewPin').value.trim();
+
+            if (newPin !== confirmNewPin) {
+                alert('New PIN and Confirm New PIN must match.');
+                return;
+            }
+
+            // If validation passes
+            alert('PIN changed successfully');
+
+            // Optionally reset the form
+            this.reset();
+        });
+    </script>
+</body>
+</html>

@@ -5,9 +5,8 @@ const path = require('path');
 const { parse } = require('querystring');
 const { MongoClient } = require('mongodb');
 
-// MongoDB connection URL from environment variables
-const mongoUrl = process.env.MONGO_URI || 'mongodb://mongodb:27017'; // Default to local if not provided
-//const mongoUrl = process.env.MONGO_URI || 'mongodb://localhost:27017';  for running in mongoDBCompass
+// MongoDB connection URL and database/collection names
+const mongoUrl = 'mongodb://localhost:27017';
 const dbName = 'bank';
 const collectionName = 'deposits';
 
@@ -15,54 +14,64 @@ let db;
 let collection;
 
 // Connect to MongoDB
-async function connectToMongo() {
-    try {
-        const client = await MongoClient.connect(mongoUrl, { useUnifiedTopology: true });
+MongoClient.connect(mongoUrl, { useUnifiedTopology: true })
+    .then(client => {
         db = client.db(dbName);
         collection = db.collection(collectionName);
         console.log('Connected to MongoDB');
-    } catch (err) {
+    })
+    .catch(err => {
         console.error('Failed to connect to MongoDB', err);
         process.exit(1);
-    }
-}
+    });
 
-connectToMongo();
-
+// Create the server
 const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
     const method = req.method;
 
-    let filePath = path.join(__dirname, parsedUrl.pathname);
-    if (filePath === path.join(__dirname, '/')) {
-        filePath = path.join(__dirname, 'main.html');
-    }
-
-    const extname = path.extname(filePath);
-    const contentType = {
-        '.html': 'text/html',
-        '.css': 'text/css',
-        '.js': 'application/javascript',
-        '.png': 'image/png',
-        '.jpg': 'image/jpeg',
-        '.jpeg': 'image/jpeg',
-        '.gif': 'image/gif'
-    }[extname] || 'text/plain';
-
-    if (method === 'GET') {
-        fs.readFile(filePath, (err, data) => {
+    if (parsedUrl.pathname === '/' && method === 'GET') {
+        // Serve the HTML form
+        fs.readFile(path.join(__dirname, 'index.html'), (err, data) => {
             if (err) {
-                if (err.code === 'ENOENT') {
-                    res.writeHead(404, { 'Content-Type': 'text/plain' });
-                    res.end('404 Not Found');
-                } else {
-                    res.writeHead(500, { 'Content-Type': 'text/plain' });
-                    res.end('500 Internal Server Error');
-                }
-                console.error(`Error reading file ${filePath}:`, err);
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('500 Internal Server Error');
                 return;
             }
-            res.writeHead(200, { 'Content-Type': contentType });
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(data);
+        });
+    } else if (parsedUrl.pathname === '/styles.css' && method === 'GET') {
+        // Serve the CSS file
+        fs.readFile(path.join(__dirname, 'styles.css'), (err, data) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('500 Internal Server Error');
+                return;
+            }
+            res.writeHead(200, { 'Content-Type': 'text/css' });
+            res.end(data);
+        });
+    } else if (parsedUrl.pathname === '/script.js' && method === 'GET') {
+        // Serve the JavaScript file
+        fs.readFile(path.join(__dirname, 'script.js'), (err, data) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('500 Internal Server Error');
+                return;
+            }
+            res.writeHead(200, { 'Content-Type': 'application/javascript' });
+            res.end(data);
+        });
+    } else if (parsedUrl.pathname === '/Images/Backgrnd.jpg' && method === 'GET') {
+        // Serve the background image
+        fs.readFile(path.join(__dirname, 'Images', 'Backgrnd.jpg'), (err, data) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.end('500 Internal Server Error');
+                return;
+            }
+            res.writeHead(200, { 'Content-Type': 'image/jpeg' });
             res.end(data);
         });
     } else if (parsedUrl.pathname === '/api/deposit' && method === 'POST') {
@@ -158,6 +167,7 @@ const server = http.createServer((req, res) => {
     }
 });
 
+// Start the server
 server.listen(3000, () => {
     console.log('Server running at http://localhost:3000');
 });

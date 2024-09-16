@@ -5,9 +5,8 @@ const path = require('path');
 const { parse } = require('querystring');
 const { MongoClient } = require('mongodb');
 
-// MongoDB connection URL from environment variables
-const mongoUrl = process.env.MONGO_URI || 'mongodb://mongodb:27017'; // Default to local if not provided
-//const mongoUrl = process.env.MONGO_URI || 'mongodb://localhost:27017';  for running in mongoDBCompass
+// MongoDB connection URL and database/collection names
+const mongoUrl = 'mongodb://localhost:27017';
 const dbName = 'bank';
 const collectionName = 'deposits';
 
@@ -15,20 +14,18 @@ let db;
 let collection;
 
 // Connect to MongoDB
-async function connectToMongo() {
-    try {
-        const client = await MongoClient.connect(mongoUrl, { useUnifiedTopology: true });
+MongoClient.connect(mongoUrl, { useUnifiedTopology: true })
+    .then(client => {
         db = client.db(dbName);
         collection = db.collection(collectionName);
         console.log('Connected to MongoDB');
-    } catch (err) {
+    })
+    .catch(err => {
         console.error('Failed to connect to MongoDB', err);
         process.exit(1);
-    }
-}
+    });
 
-connectToMongo();
-
+// Create the server
 const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
     const method = req.method;
@@ -158,6 +155,7 @@ const server = http.createServer((req, res) => {
     }
 });
 
+// Start the server
 server.listen(3000, () => {
     console.log('Server running at http://localhost:3000');
 });

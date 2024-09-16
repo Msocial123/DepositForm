@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Deposit</title>
+    <link rel="stylesheet" href="/styles3.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Cash Deposit Form</h1>
+        <p>Fill out the cash deposit form below:</p>
+        <form id="cashDepositForm">
+            <fieldset>
+                <legend>Deposit Details</legend>
+                <label for="amountInNumbers">Amount in Numbers:</label>
+                <input type="number" id="amountInNumbers" name="amountInNumbers" required><br>
+                
+                <label for="amountInWords">Amount in Words:</label>
+                <input type="text" id="amountInWords" name="amountInWords" required><br>
+
+                <label for="denominations">Denominations:</label>
+                <input type="text" id="denominations" name="denominations" required><br>
+
+                <label for="totalAmount">Total Amount:</label>
+                <input type="number" id="totalAmount" name="totalAmount" required>
+            </fieldset>
+
+            <fieldset>
+                <legend>Contact Information</legend>
+                <label for="panNumber">PAN Number:</label>
+                <input type="text" id="panNumber" name="panNumber" placeholder="PAN Number format is ABCDE1234F" required><br>
+
+                <label for="mailId">Mail ID:</label>
+                <input type="email" id="mailId" name="mailId" required><br>
+
+                <label for="mobileNumber">Mobile Number:</label>
+                <input type="tel" id="mobileNumber" name="mobileNumber"><br>
+            </fieldset>
+
+            <button type="submit">Submit</button>
+        </form>
+        <button onclick="window.location.href='/home.html'">Return Home</button>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>

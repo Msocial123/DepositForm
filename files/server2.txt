@@ -6,8 +6,7 @@ const { parse } = require('querystring');
 const { MongoClient } = require('mongodb');
 
 // MongoDB connection URL from environment variables
-const mongoUrl = process.env.MONGO_URI || 'mongodb://mongodb:27017'; // Default to local if not provided
-//const mongoUrl = process.env.MONGO_URI || 'mongodb://localhost:27017';  for running in mongoDBCompass
+const mongoUrl = process.env.MONGO_URI || 'mongodb://localhost:27017'; // Default to local if not provided
 const dbName = 'bank';
 const collectionName = 'deposits';
 

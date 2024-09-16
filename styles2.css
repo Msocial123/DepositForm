@@ -1,0 +1,109 @@
+/* styles2.css */
+
+/* Inherit existing styles from the base stylesheet */
+@import url('/styles.css');
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url('Images/backgrnd2.jpg');
+    background-size: cover; /* Ensure the background image covers the entire page */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Prevent the background image from repeating */
+    color: #333;
+}
+
+/* Additional styles specific to the other pages, if needed, can be added here */
+
+/* Styling for the Sign Out button */
+.sign-out-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    text-align: center;
+}
+
+.sign-out-logo {
+    width: 40px; /* Adjust the size as needed */
+    height: auto;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.sign-out-button {
+    padding: 10px 20px;
+    background-color: darkred; /* Make it distinct from other buttons */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.sign-out-button:hover {
+    background-color: red; /* Lighter color on hover */
+}
+
+/* Styles specific to the login page */
+.login-container {
+    max-width: 400px; /* Limit the width of the form container */
+    margin: 100px auto; /* Center the form container and add some top margin */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent background for better readability */
+    border-radius: 8px; /* Rounded corners for the form container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect for better visibility */
+    text-align: center; /* Center text within the form container */
+}
+
+h1 {
+    margin-bottom: 20px; /* Add space below the heading */
+    color: red; /* Set the heading color to red */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center form elements horizontally */
+}
+
+fieldset {
+    border: none; /* Remove the default border */
+    padding: 0;
+    margin: 0;
+    width: 100%; /* Ensure the fieldset takes full width */
+}
+
+label {
+    margin: 10px 0 5px; /* Add space around labels */
+    font-weight: bold; /* Make labels bold */
+}
+
+input[type="text"],
+input[type="password"] {
+    width: calc(100% - 22px); /* Full width minus padding */
+    padding: 10px;
+    margin-bottom: 20px; /* Space below each input */
+    border: 1px solid #ccc;
+    border-radius: 4px; /* Rounded corners for inputs */
+}
+
+button {
+    padding: 10px 20px;
+    background-color: darkred; /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 10px; /* Add space above the button */
+}
+
+button:hover {
+    background-color: red; /* Lighter color on hover */
+}
