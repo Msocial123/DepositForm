@@ -8,7 +8,7 @@ services:
     image: bankform:v1
     container_name: deposit
     ports:
-      - "3000:3000"
+      - "3011:3011"
     environment:
       - MONGO_URI=mongodb://mongo:27017
     depends_on:
