@@ -1,4 +1,4 @@
-apiVersion: v1                  #Use services.yml to expose and access the application
+apiVersion: v1
 kind: Service
 metadata:
   name: deposit-service
@@ -6,21 +6,7 @@ spec:
   selector:
     app: deposit
   ports:
-    - protocol: TCP
-      port: 3000          # Port exposed by the service
-      targetPort: 3000    # Port on the container
-      nodePort: 32000     # Port on the Minikube node (optional: you can omit this and let Kubernetes assign it automatically)
-  type: NodePort         # Use NodePort to expose the service externally
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mongo-service
-spec:
-  selector:
-    app: mongo
-  ports:
-    - protocol: TCP
-      port: 27017         # Port exposed by the service
-      targetPort: 27017   # Port on the container
-  type: ClusterIP        # Exposes the service only within the cluster
+  - protocol: TCP
+    port: 80
+    targetPort: 3011
+  type: LoadBalancer

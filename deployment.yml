@@ -16,7 +16,7 @@ spec:
       - name: deposits
         image: aryansahuuu/bankform:v1
         ports:
-        - containerPort: 3067
+        - containerPort: 3011
         env:
         - name: MONGO_URI
           value: "mongodb://mongodb:27017/restaurant"
