@@ -1,0 +1,54 @@
+---
+- name: Deploy online deposit form
+  hosts: all
+  become: true  # To run the tasks as a sudo user
+  tasks:
+ 
+    # Step 1: Install necessary packages (Docker, Docker Compose, and Kubernetes tools)
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+ 
+    - name: Install Docker Compose
+      apt:
+        name: docker-compose
+        state: present
+        update_cache: yes
+ 
+    - name: Install kubectl (Kubernetes CLI tool)
+      apt:
+        name: kubectl
+        state: present
+        update_cache: yes
+ 
+    # Step 2: Clone the application repository from GitHub (replace with your repo URL)
+    - name: Clone the repository
+      git:
+        repo: 'https://github.com/pooja434/all-vegetable-order-app.git'
+        dest: /home/ubuntu/all-vegetable-order-app
+        version: master
+ 
+    # Step 3: Build and deploy Docker containers using Docker Compose
+    - name: Change directory to the application folder
+      command: chdir=/home/ubuntu/all-vegetable-order-app
+ 
+    - name: Build and start Docker containers using docker-compose
+      shell: docker-compose up -d
+ 
+    # Step 4: Kubernetes Deployment
+    - name: Apply the Kubernetes deployment.yaml
+      command: kubectl apply -f /home/ubuntu/all-vegetable-order-app/deployment.yaml
+ 
+    - name: Apply the Kubernetes service.yaml
+      command: kubectl apply -f /home/ubuntu/all-vegetable-order-app/services.yaml
+ 
+    # Step 5: Check if the application is running
+    - name: Check if the app is running on port 3000
+      command: curl http://localhost:3000
+      register: result
+ 
+    - name: Show the result
+      debug:
+        msg: "{{ result.stdout }}"
